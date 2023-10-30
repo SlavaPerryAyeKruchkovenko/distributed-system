@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/hello")
 class AppController {
     @GetMapping
-    fun test(): ResponseEntity<String> = ResponseEntity.ok("connection is ok")
+    fun test(): ResponseEntity<String> = ResponseEntity.ok("Hello world")
 }
