@@ -1,5 +1,5 @@
-FROM openjdk:8-jdk-alpine
-RUN mkdir /app
-COPY target/your-app.jar /app/app.jar
-WORKDIR /app
+FROM openjdk:17-oracle
+EXPOSE 3000
+WORKDIR /opt/app
+COPY build/libs/*.jar app.jar
 CMD ["java", "-jar", "app.jar"]
