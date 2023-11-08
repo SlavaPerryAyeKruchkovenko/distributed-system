@@ -24,6 +24,7 @@ class DatabaseConfig {
         dataSource.url = url
         dataSource.username = username
         dataSource.password = password
+        System.out.println(username)
         return dataSource
     }
 
