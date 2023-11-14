@@ -14,14 +14,14 @@ class LinkService(private val linkRepository: LinkRepository) {
     fun getLink(id: Long): Link? {
         val entity = linkRepository.findById(id)
         if (entity.isPresent) {
-            return Link(entity.get().id, entity.get().url, entity.get().author)
+            return Link(entity.get().id, entity.get().url, entity.get().author, entity.get().status)
         }
         return null
     }
 
     fun getLinks(): List<Link> {
         return linkRepository.findAll().map {
-            Link(it.id, it.url, it.author)
+            Link(it.id, it.url, it.author, it.status)
         }
     }
 }

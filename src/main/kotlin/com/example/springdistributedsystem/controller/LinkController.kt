@@ -29,6 +29,6 @@ class LinkController(private val linkService: LinkService) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createLink(@RequestBody link: LinkRequest) {
-        linkService.addLink(Link(0, link.url, link.author))
+        linkService.addLink(Link(0, link.url, link.author, null))
     }
 }
