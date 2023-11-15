@@ -8,6 +8,16 @@ services:
       POSTGRES_DB: distributed-system
     ports:
       - 5432:5432
+
+  RabbitMQ:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: 12345
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   app:
     build:
       context: .
@@ -16,6 +26,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/distributed-system
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345
+      RABBITMQ_USERNAME: root
+      RABBITMQ_PASSWORD: 12345
     ports:
       - 8080:3000
     depends_on:
