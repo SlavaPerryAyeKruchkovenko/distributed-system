@@ -1,8 +1,8 @@
 package com.example.springdistributedsystem.config
 
 import org.springframework.amqp.core.AmqpAdmin
-import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.DirectExchange
+import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
 import org.springframework.amqp.rabbit.core.RabbitAdmin
@@ -13,7 +13,11 @@ import org.springframework.context.annotation.Configuration
 
 
 @Configuration
-class RabbitMQConfig {
+class RabbitConfiguration {
+    companion object {
+        val queueName = "LINK_QUEUE"
+    }
+
     @Value("\${rabbitmq.username}")
     private lateinit var username: String
 
@@ -39,7 +43,7 @@ class RabbitMQConfig {
     }
 
     @Bean
-    fun exchange(): DirectExchange {
-        return DirectExchange("testExchange", true, false)
+    fun linkQueue(): Queue {
+        return Queue(queueName)
     }
 }
