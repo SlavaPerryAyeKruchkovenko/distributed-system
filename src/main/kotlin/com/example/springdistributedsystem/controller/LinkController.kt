@@ -2,7 +2,7 @@ package com.example.springdistributedsystem.controller
 
 import com.example.springdistributedsystem.model.Link
 import com.example.springdistributedsystem.model.request.UpdateLinkStatusRequest
-import com.example.springdistributedsystem.model.request.LinkRequest
+import com.example.springdistributedsystem.model.request.CreateLinkRequest
 import com.example.springdistributedsystem.model.request.UpdateLinkRequest
 import com.example.springdistributedsystem.service.LinkService
 import jakarta.validation.Valid
@@ -60,7 +60,7 @@ class LinkController(private val linkService: LinkService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createLink(@RequestBody link: LinkRequest) {
+    fun createLink(@RequestBody link: CreateLinkRequest) {
         linkService.addLink(Link(0, link.url, link.author, null))
     }
 }
