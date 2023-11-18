@@ -8,6 +8,7 @@ import com.example.springdistributedsystem.service.LinkService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -29,10 +30,10 @@ class LinkController(private val linkService: LinkService) {
         }
     }
 
-    @PatchMapping("{id}/link")
-    fun updateLinkStatus(
+    @PatchMapping("{id}/status")
+    fun updateStatus(
         @PathVariable id: Long,
-        @Valid @RequestBody
+        @RequestBody @Valid
         request: UpdateLinkStatusRequest
     ): ResponseEntity<Link> {
         return try {
@@ -47,7 +48,7 @@ class LinkController(private val linkService: LinkService) {
     @PutMapping("{id}")
     fun updateLink(
         @PathVariable id: Long,
-        @Valid @RequestBody
+        @RequestBody @Valid
         request: UpdateLinkRequest
     ): ResponseEntity<Link> {
         return try {
@@ -60,7 +61,7 @@ class LinkController(private val linkService: LinkService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createLink(@RequestBody link: CreateLinkRequest) {
+    fun createLink(@RequestBody @Valid link: CreateLinkRequest) {
         linkService.addLink(Link(0, link.url, link.author, null))
     }
 }

@@ -19,10 +19,10 @@ class RabbitConfiguration {
         val connectionName = "LINK_CONNECTION"
     }
 
-    @Value("\${rabbitmq.username}")
+    @Value("\${spring.rabbitmq.username}")
     private lateinit var username: String
 
-    @Value("\${rabbitmq.password}")
+    @Value("\${spring.rabbitmq.password}")
     private lateinit var password: String
 
     @Bean

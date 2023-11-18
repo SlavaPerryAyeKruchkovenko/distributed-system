@@ -26,8 +26,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/distributed-system
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345
-      RABBITMQ_USERNAME: root
-      RABBITMQ_PASSWORD: 12345
+      SPRING_RABBITMQ_USERNAME: root
+      SPRING_RABBITMQ_PASSWORD: 12345
     ports:
       - 8080:3000
     depends_on:
