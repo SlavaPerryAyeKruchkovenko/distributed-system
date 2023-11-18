@@ -1,6 +1,7 @@
 package com.example.springdistributedsystem.controller
 
 import com.example.springdistributedsystem.model.Link
+import com.example.springdistributedsystem.model.errors.ApiError
 import com.example.springdistributedsystem.model.request.UpdateLinkStatusRequest
 import com.example.springdistributedsystem.model.request.CreateLinkRequest
 import com.example.springdistributedsystem.model.request.UpdateLinkRequest
@@ -8,7 +9,7 @@ import com.example.springdistributedsystem.service.LinkService
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.validation.annotation.Validated
+import org.springframework.validation.BindException
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -63,5 +64,12 @@ class LinkController(private val linkService: LinkService) {
     @ResponseStatus(HttpStatus.CREATED)
     fun createLink(@RequestBody @Valid link: CreateLinkRequest) {
         linkService.addLink(Link(0, link.url, link.author, null))
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BindException::class)
+    fun onError(cause: BindException):ApiError{
+        val fields = cause.fieldErrors.associate { it.field to it.defaultMessage }
+        val global = cause.globalErrors.map { it.defaultMessage }
+        return ApiError(fields,global)
     }
 }
