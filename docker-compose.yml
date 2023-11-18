@@ -9,7 +9,7 @@ services:
     ports:
       - 5432:5432
 
-  RabbitMQ:
+  rabbitMQ:
     image: rabbitmq:3-management-alpine
     environment:
       RABBITMQ_DEFAULT_USER: root
@@ -32,3 +32,4 @@ services:
       - 8080:3000
     depends_on:
       - db
+      - rabbitMQ
