@@ -26,4 +26,30 @@ class LinkService(private val linkRepository: LinkRepository, private val linkPr
             Link(it.id, it.url, it.author, it.status)
         }
     }
+
+    fun updateStatus(id: Long, status: Int): Link {
+        val entity = linkRepository.findById(id)
+        if (entity.isPresent) {
+            val link = entity.get()
+            link.status = status
+            linkRepository.save(link)
+            return Link(link.id, link.url, link.author, link.status)
+        } else {
+            throw RuntimeException("Link not found")
+        }
+    }
+
+    fun updateLink(id: Long, link: Link): Link {
+        val entity = linkRepository.findById(id)
+        if (entity.isPresent) {
+            val linkEntity = entity.get()
+            linkEntity.status = link.status
+            linkEntity.url = link.url
+            linkEntity.author = link.author
+            linkRepository.save(linkEntity)
+            return Link(linkEntity.id, link.url, link.author, link.status)
+        } else {
+            throw RuntimeException("Link not found")
+        }
+    }
 }
