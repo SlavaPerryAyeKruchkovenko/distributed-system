@@ -1,4 +1,4 @@
-package com.example.springdistributedsystem.app.config
+package com.example.springdistributedsystem.linkconsumer.config
 
 import org.springframework.amqp.core.*
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
