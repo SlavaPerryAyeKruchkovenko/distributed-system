@@ -55,4 +55,13 @@ class LinkService(private val linkRepository: LinkRepository, private val linkPr
             throw RuntimeException("Link not found")
         }
     }
+
+    fun removeLink(id: Long) {
+        val entity = linkRepository.findById(id)
+        if (entity.isPresent) {
+            linkRepository.delete(entity.get())
+        } else {
+            throw RuntimeException("Link not found")
+        }
+    }
 }

@@ -31,6 +31,12 @@ class LinkController(private val linkService: LinkService) {
         }
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createLink(@RequestBody @Valid link: CreateLinkRequest) {
+        linkService.addLink(Link(0, link.url, link.author, null))
+    }
+
     @PatchMapping("{id}/status")
     fun updateStatus(
         @PathVariable id: Long,
@@ -60,16 +66,21 @@ class LinkController(private val linkService: LinkService) {
         }
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    fun createLink(@RequestBody @Valid link: CreateLinkRequest) {
-        linkService.addLink(Link(0, link.url, link.author, null))
+    @DeleteMapping("{id}")
+    fun removeLink(@PathVariable id: Long):ResponseEntity<Void> {
+        return try {
+            linkService.removeLink(id)
+            ResponseEntity.noContent().build()
+        } catch (e:Exception){
+            ResponseEntity.notFound().build()
+        }
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
     fun onError(cause: BindException): ApiError {
         val fields = cause.fieldErrors.associate { it.field to it.defaultMessage }
         val global = cause.globalErrors.map { it.defaultMessage }
-        return ApiError(fields,global)
+        return ApiError(fields, global)
     }
 }

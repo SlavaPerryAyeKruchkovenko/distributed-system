@@ -21,7 +21,6 @@ class LinkConsumer {
                 .retrieve()
                 .toEntity(Void::class.java)
                 .subscribe {
-                    println(it.statusCode.value())
                     changeLinkStatus(webClient, link.id, it.statusCode.value())
                 }
             println(link)
@@ -31,7 +30,7 @@ class LinkConsumer {
     }
 
     fun changeLinkStatus(client: WebClient, id: Long, status: Int) {
-        val appUrl = "app/api/DistributedSystem/v1/links/{id}/status"
+        val appUrl = "http://app:3000/api/DistributedSystem/v1/links/{id}/status"
         val updateStatus = BodyInserters.fromValue(UpdateLinkStatus(status))
         client.patch()
             .uri(appUrl, id)
@@ -39,8 +38,7 @@ class LinkConsumer {
             .retrieve()
             .toEntity(Link::class.java)
             .subscribe {
-                println(it.statusCode)
-                println("status change")
+                println("change link status into $status response: ${it.body}")
             }
     }
 }
