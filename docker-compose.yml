@@ -20,7 +20,7 @@ services:
 
   app:
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/distributed-system
