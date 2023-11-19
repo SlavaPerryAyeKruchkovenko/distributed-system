@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SpringDistributedSystemApplication
+class SpringLinkConsumerApplication
 
 fun main(args: Array<String>) {
-	runApplication<SpringDistributedSystemApplication>(*args)
+	runApplication<SpringLinkConsumerApplication>(*args)
 }

@@ -11,6 +11,7 @@ group = "com.example"
 version = "0.0.1-SNAPSHOT"
 
 java {
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -26,7 +27,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.withType<KotlinCompile> {
@@ -38,7 +38,4 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(20)
 }
