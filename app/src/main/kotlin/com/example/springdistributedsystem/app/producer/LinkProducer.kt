@@ -11,6 +11,5 @@ class LinkProducer(private val rabbitTemplate: RabbitTemplate, private val queue
 
     fun sendLink(link: Link) {
         rabbitTemplate.convertAndSend(queue.name, link)
-        println("Сообщение отправлено: $link")
     }
 }

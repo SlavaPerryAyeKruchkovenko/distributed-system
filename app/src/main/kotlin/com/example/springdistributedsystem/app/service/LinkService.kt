@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service
 @Service
 class LinkService(private val linkRepository: LinkRepository, private val linkProducer: LinkProducer) {
     fun addLink(link: Link) {
-        linkRepository.save(LinkEntity(url = link.url, author = link.author))
-        linkProducer.sendLink(link)
+        val entity = linkRepository.save(LinkEntity(url = link.url, author = link.author))
+        linkProducer.sendLink(link.apply {
+            id = entity.id
+        })
     }
 
     fun getLink(id: Long): Link? {
@@ -46,6 +48,7 @@ class LinkService(private val linkRepository: LinkRepository, private val linkPr
             linkEntity.status = link.status
             linkEntity.url = link.url
             linkEntity.author = link.author
+            linkEntity.status = null
             linkRepository.save(linkEntity)
             return Link(linkEntity.id, link.url, link.author, link.status)
         } else {
