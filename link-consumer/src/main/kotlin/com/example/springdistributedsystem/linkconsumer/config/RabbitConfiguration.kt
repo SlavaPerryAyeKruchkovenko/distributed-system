@@ -30,6 +30,7 @@ class RabbitConfiguration {
         val connectionFactory = CachingConnectionFactory("rabbitMQ")
         connectionFactory.username = username
         connectionFactory.setPassword(password)
+        println(connectionFactory)
         return connectionFactory
     }
 

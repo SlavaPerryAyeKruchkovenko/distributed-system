@@ -2,6 +2,7 @@ version: '3'
 services:
   db:
     image: postgres:latest
+    restart: always
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 12345
@@ -42,6 +43,8 @@ services:
       SPRING_RABBITMQ_USERNAME: root
       SPRING_RABBITMQ_PASSWORD: 12345
     ports:
-      - 4001:4001
+      - 4000:4000
     depends_on:
+      - rabbitMQ
       - app
+      - db

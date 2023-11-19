@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AppController {
     @GetMapping("/ready")
-    fun ready(): ResponseEntity<String> = ResponseEntity.ok("true")
+    fun ready(): ResponseEntity<Boolean> = ResponseEntity.ok(true)
 
     @GetMapping("/alive")
-    fun alive(): ResponseEntity<String> = ResponseEntity.ok("true")
+    fun alive(): ResponseEntity<Boolean> = ResponseEntity.ok(true)
 }

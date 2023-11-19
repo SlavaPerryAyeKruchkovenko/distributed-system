@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component
 class LinkConsumer {
     @RabbitListener(queues = [RabbitConfiguration.queueName])
     fun listener(link: Link) {
-        println(link);
+        println(link)
     }
 }
