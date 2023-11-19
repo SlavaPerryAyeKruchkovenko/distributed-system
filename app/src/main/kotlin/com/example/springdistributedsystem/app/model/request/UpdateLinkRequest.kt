@@ -10,8 +10,7 @@ data class UpdateLinkRequest(
     val url: String,
     @field:NotEmpty(message = "{validation.field.link.author.empty}")
     val author: String,
-    @field:NotNull(message = "{validation.field.link.status.empty}")
     @field:Min(100, message = "{validation.field.link.status.min}")
     @field:Max(599, message = "{validation.field.link.status.max}")
-    val status: Int
+    val status: Int?
 )

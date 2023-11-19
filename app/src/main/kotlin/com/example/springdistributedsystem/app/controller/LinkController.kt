@@ -59,7 +59,7 @@ class LinkController(private val linkService: LinkService) {
         request: UpdateLinkRequest
     ): ResponseEntity<Link> {
         return try {
-            val link = linkService.updateLink(id, Link(0, request.url, request.url, request.status))
+            val link = linkService.updateLink(id, Link(0, request.url, request.author, request.status))
             ResponseEntity.ok(link)
         } catch (e: Exception) {
             ResponseEntity.notFound().build()
@@ -67,11 +67,11 @@ class LinkController(private val linkService: LinkService) {
     }
 
     @DeleteMapping("{id}")
-    fun removeLink(@PathVariable id: Long):ResponseEntity<Void> {
+    fun removeLink(@PathVariable id: Long): ResponseEntity<Void> {
         return try {
             linkService.removeLink(id)
             ResponseEntity.noContent().build()
-        } catch (e:Exception){
+        } catch (e: Exception) {
             ResponseEntity.notFound().build()
         }
     }

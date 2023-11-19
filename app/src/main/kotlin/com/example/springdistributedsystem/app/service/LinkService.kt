@@ -45,12 +45,16 @@ class LinkService(private val linkRepository: LinkRepository, private val linkPr
         val entity = linkRepository.findById(id)
         if (entity.isPresent) {
             val linkEntity = entity.get()
-            linkEntity.status = link.status
-            linkEntity.url = link.url
-            linkEntity.author = link.author
+            val newLink = Link(linkEntity.id, link.url, link.author, null)
+            linkEntity.author = newLink.author
             linkEntity.status = null
+
+            if (!linkEntity.url.equals(link.url)) {
+                linkProducer.sendLink(newLink)
+                linkEntity.url = newLink.url
+            }
             linkRepository.save(linkEntity)
-            return Link(linkEntity.id, link.url, link.author, link.status)
+            return newLink
         } else {
             throw RuntimeException("Link not found")
         }
