@@ -4,8 +4,8 @@ services:
   nginx:
     container_name: nginx.balancer
     build:
-      context: .
-      dockerfile: ./nginx/Dockerfile
+      context: ./nginx
+      dockerfile: ./Dockerfile
     ports:
       - 80:80
     depends_on:
