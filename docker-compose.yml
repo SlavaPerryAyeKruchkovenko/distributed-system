@@ -9,9 +9,16 @@ services:
     ports:
       - 80:80
     depends_on:
-      - app
+      - app-1
+      - app-2
     links:
-      - app
+      - app-1
+      - app-2
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 100M
   db:
     image: postgres:latest
     restart: always
@@ -31,7 +38,7 @@ services:
       - 5672:5672
       - 15672:15672
 
-  app:
+  app-1:
     build:
       context: ./app
       dockerfile: Dockerfile
@@ -45,15 +52,33 @@ services:
       - db
       - rabbitMQ
     deploy:
-      mode: replicated
-      replicas: 2
       resources:
         limits:
           cpus: '0.50'
-          memory: 150M
-        reservations:
-          cpus: '0.25'
-          memory: 100M
+          memory: 250M
+    ports:
+      - "8080:3000"
+
+  app-2:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/distributed-system
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_RABBITMQ_USERNAME: root
+      SPRING_RABBITMQ_PASSWORD: 12345
+    depends_on:
+      - db
+      - rabbitMQ
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 250M
+    ports:
+      - "8081:3000"
 
   comsumer:
     build:
@@ -66,5 +91,5 @@ services:
       - 4000:4000
     depends_on:
       - rabbitMQ
-      - app
-      - db
+      - app-1
+      - app-2
