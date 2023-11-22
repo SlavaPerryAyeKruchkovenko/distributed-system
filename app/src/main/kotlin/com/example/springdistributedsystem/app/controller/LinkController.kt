@@ -43,7 +43,7 @@ class LinkController(private val linkService: LinkService) {
         linkService.addLink(Link(0, link.url, link.author, null))
         return ResponseEntity.status(HttpStatus.CREATED).header("X-Container", containerName).build()
     }
-
+   /* @ApiIgnore*/
     @PatchMapping("{id}/status")
     fun updateStatus(
         @PathVariable id: Long,
