@@ -7,6 +7,7 @@ import com.example.springdistributedsystem.app.model.request.CreateLinkRequest
 import com.example.springdistributedsystem.app.model.request.UpdateLinkRequest
 import com.example.springdistributedsystem.app.service.LinkService
 import jakarta.validation.Valid
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindException
@@ -15,26 +16,32 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/DistributedSystem/v1/links")
 class LinkController(private val linkService: LinkService) {
+    @Value("\${spring.container.name}")
+    private lateinit var containerName: String
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    fun getLinks(): List<Link> {
-        return linkService.getLinks()
+    fun getLinks(): ResponseEntity<List<Link>> {
+        return ResponseEntity.ok().header("X-Container", containerName)
+            .body(linkService.getLinks())
     }
 
     @GetMapping("{id}")
     fun getLink(@PathVariable id: Long): ResponseEntity<Link> {
         val link = linkService.getLink(id)
         return if (link != null) {
-            ResponseEntity.ok(link)
+            ResponseEntity.ok().header("X-Container", containerName)
+                .body(link)
         } else {
-            ResponseEntity.notFound().build()
+            ResponseEntity.notFound().header("X-Container", containerName).build()
         }
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createLink(@RequestBody @Valid link: CreateLinkRequest) {
+    fun createLink(@RequestBody @Valid link: CreateLinkRequest): ResponseEntity<Void> {
         linkService.addLink(Link(0, link.url, link.author, null))
+        return ResponseEntity.status(HttpStatus.CREATED).header("X-Container", containerName).build()
     }
 
     @PatchMapping("{id}/status")
@@ -45,9 +52,9 @@ class LinkController(private val linkService: LinkService) {
     ): ResponseEntity<Link> {
         return try {
             val link = linkService.updateStatus(id, request.status)
-            ResponseEntity.ok(link)
+            ResponseEntity.ok().header("X-Container", containerName).body(link)
         } catch (e: Exception) {
-            ResponseEntity.notFound().build()
+            ResponseEntity.notFound().header("X-Container", containerName).build()
         }
 
     }
@@ -60,9 +67,9 @@ class LinkController(private val linkService: LinkService) {
     ): ResponseEntity<Link> {
         return try {
             val link = linkService.updateLink(id, Link(0, request.url, request.author, request.status))
-            ResponseEntity.ok(link)
+            ResponseEntity.ok().header("X-Container", containerName).body(link)
         } catch (e: Exception) {
-            ResponseEntity.notFound().build()
+            ResponseEntity.notFound().header("X-Container", containerName).build()
         }
     }
 
@@ -70,9 +77,9 @@ class LinkController(private val linkService: LinkService) {
     fun removeLink(@PathVariable id: Long): ResponseEntity<Void> {
         return try {
             linkService.removeLink(id)
-            ResponseEntity.noContent().build()
+            ResponseEntity.noContent().header("X-Container", containerName).build()
         } catch (e: Exception) {
-            ResponseEntity.notFound().build()
+            ResponseEntity.notFound().header("X-Container", containerName).build()
         }
     }
 

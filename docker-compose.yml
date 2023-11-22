@@ -48,6 +48,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: 12345
       SPRING_RABBITMQ_USERNAME: root
       SPRING_RABBITMQ_PASSWORD: 12345
+      SPRING_CONTAINER_NAME: app-1
     depends_on:
       - db
       - rabbitMQ
@@ -69,6 +70,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: 12345
       SPRING_RABBITMQ_USERNAME: root
       SPRING_RABBITMQ_PASSWORD: 12345
+      SPRING_CONTAINER_NAME: app-2
     depends_on:
       - db
       - rabbitMQ
