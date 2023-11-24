@@ -6,6 +6,7 @@ import com.example.springdistributedsystem.app.model.request.UpdateLinkStatusReq
 import com.example.springdistributedsystem.app.model.request.CreateLinkRequest
 import com.example.springdistributedsystem.app.model.request.UpdateLinkRequest
 import com.example.springdistributedsystem.app.service.LinkService
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
@@ -27,6 +28,7 @@ class LinkController(private val linkService: LinkService) {
     }
 
     @GetMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
     fun getLink(@PathVariable id: Long): ResponseEntity<Link> {
         val link = linkService.getLink(id)
         return if (link != null) {
@@ -43,8 +45,10 @@ class LinkController(private val linkService: LinkService) {
         linkService.addLink(Link(0, link.url, link.author, null))
         return ResponseEntity.status(HttpStatus.CREATED).header("X-Container", containerName).build()
     }
-   /* @ApiIgnore*/
+
     @PatchMapping("{id}/status")
+    @Operation(hidden = true)
+    @ResponseStatus(HttpStatus.OK)
     fun updateStatus(
         @PathVariable id: Long,
         @RequestBody @Valid
@@ -60,6 +64,7 @@ class LinkController(private val linkService: LinkService) {
     }
 
     @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.OK)
     fun updateLink(
         @PathVariable id: Long,
         @RequestBody @Valid
@@ -74,6 +79,7 @@ class LinkController(private val linkService: LinkService) {
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun removeLink(@PathVariable id: Long): ResponseEntity<Void> {
         return try {
             linkService.removeLink(id)
