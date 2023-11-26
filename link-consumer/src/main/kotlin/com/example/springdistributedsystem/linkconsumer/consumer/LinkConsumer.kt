@@ -1,6 +1,6 @@
 package com.example.springdistributedsystem.linkconsumer.consumer
 
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient
 import com.example.springdistributedsystem.linkconsumer.config.RabbitConfiguration
 import com.example.springdistributedsystem.linkconsumer.model.Link
 import com.example.springdistributedsystem.linkconsumer.model.UpdateLinkStatus
@@ -13,8 +13,9 @@ import reactor.core.publisher.Mono
 
 @Component
 class LinkConsumer {
-    @RabbitListener(queues = [RabbitConfiguration.queueName])
+    @RabbitListener(queues = [RabbitConfiguration.QUEUE_NAME])
     fun listener(link: Link) {
+        println(link)
         val webClient = WebClient.create()
         try {
             webClient.get()

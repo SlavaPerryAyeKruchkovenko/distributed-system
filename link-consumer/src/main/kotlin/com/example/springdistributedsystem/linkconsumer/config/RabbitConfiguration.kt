@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class RabbitConfiguration {
     companion object {
-        const val queueName = "LINK_QUEUE"
-        const val topicExchangeName = "LINK_TOPIC"
-        const val connectionName = "LINK_CONNECTION"
+        const val QUEUE_NAME = "LINK_QUEUE"
+        const val TOPIC_EXCHANGE_NAME = "LINK_TOPIC"
+        const val CONNECTION_NAME = "LINK_CONNECTION"
     }
 
     @Value("\${spring.rabbitmq.username}")
@@ -53,16 +53,16 @@ class RabbitConfiguration {
 
     @Bean
     fun linkQueue(): Queue {
-        return Queue(queueName)
+        return Queue(QUEUE_NAME)
     }
 
     @Bean
     fun exchange(): TopicExchange {
-        return TopicExchange(topicExchangeName);
+        return TopicExchange(TOPIC_EXCHANGE_NAME)
     }
 
     @Bean
     fun binding(queue: Queue, exchange: TopicExchange): Binding {
-        return BindingBuilder.bind(queue).to(exchange).with(connectionName)
+        return BindingBuilder.bind(queue).to(exchange).with(CONNECTION_NAME)
     }
 }
