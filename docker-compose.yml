@@ -82,7 +82,7 @@ services:
     ports:
       - "8081:3000"
 
-  comsumer:
+  consumer:
     build:
       context: ./link-consumer
       dockerfile: Dockerfile
@@ -90,8 +90,9 @@ services:
       SPRING_RABBITMQ_USERNAME: root
       SPRING_RABBITMQ_PASSWORD: 12345
     ports:
-      - 4000:4000
+      - 4000
     depends_on:
-      - rabbitMQ
-      - app-1
-      - app-2
+      - nginx
+    deploy:
+      mode: replicated
+      replicas: 2

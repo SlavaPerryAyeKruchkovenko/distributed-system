@@ -13,6 +13,14 @@ class AddContainerResponseHeaderFilter : Filter {
     @Value("\${spring.container.name}")
     private lateinit var containerName: String
     override fun doFilter(request: ServletRequest?, response: ServletResponse?, chain: FilterChain?) {
+        /*if(request != null){
+            println( request.getAttribute("x-forwarded-for"))
+            println(request.requestId)
+            println(request.serverName)
+            println(request.serverPort)
+            println(request.attributeNames)
+            println(request.toString())
+        }*/
         if(response is HttpServletResponse && chain != null) {
             response.setHeader("X-Container", containerName)
             chain.doFilter(request, response)
