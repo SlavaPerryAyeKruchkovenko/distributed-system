@@ -89,10 +89,17 @@ services:
     environment:
       SPRING_RABBITMQ_USERNAME: root
       SPRING_RABBITMQ_PASSWORD: 12345
+      SPRING_DATA_REDIS_PORT: 6379
     ports:
       - 4000
     depends_on:
+      - redis
       - nginx
     deploy:
       mode: replicated
       replicas: 2
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
