@@ -37,6 +37,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   app-1:
     build:
@@ -95,6 +100,7 @@ services:
     depends_on:
       - redis
       - nginx
+      - rabbitMQ
     deploy:
       mode: replicated
       replicas: 2

@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.BodyInserters
 class LinkConsumer(private val linkService: LinkService) {
     @RabbitListener(queues = [RabbitConfiguration.QUEUE_NAME])
     fun listener(link: Link) {
-        println(link)
+        println("message received $link")
         val status = linkService.getStatusByUrl(link.url)
         linkService.updateLinkStatus(link.id, status)
     }

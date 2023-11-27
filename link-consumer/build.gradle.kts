@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("redis.clients:jedis:3.10.0")
+    implementation("redis.clients:jedis:5.1.0")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.data:spring-data-redis:3.2.0")
     implementation("org.springframework.boot:spring-boot-starter-webflux")

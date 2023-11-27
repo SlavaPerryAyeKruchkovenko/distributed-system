@@ -5,11 +5,12 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.redis.cache.RedisCacheConfiguration
 import org.springframework.data.redis.cache.RedisCacheManager
+import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
-import org.springframework.data.redis.serializer.RedisSerializationContext.*
+import org.springframework.data.redis.serializer.RedisSerializationContext.SerializationPair
 import java.time.Duration
 
 @Configuration
@@ -24,20 +25,20 @@ class RedisConfiguration {
     }
 
     @Bean
-    fun cacheManager(): RedisCacheManager {
+    fun cacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
         val redisCacheConfiguration =
             RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)).disableCachingNullValues()
                 .serializeValuesWith(SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer()))
 
-        return RedisCacheManager.builder(jedisConnectionFactory()).apply {
+        return RedisCacheManager.builder(redisConnectionFactory).apply {
             cacheDefaults(redisCacheConfiguration)
         }.build()
     }
 
     @Bean
-    fun redisTemplate(): RedisTemplate<String, Int> {
+    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Int> {
         return RedisTemplate<String, Int>().apply {
-            connectionFactory = jedisConnectionFactory()
+            connectionFactory = redisConnectionFactory
         }
     }
 }
