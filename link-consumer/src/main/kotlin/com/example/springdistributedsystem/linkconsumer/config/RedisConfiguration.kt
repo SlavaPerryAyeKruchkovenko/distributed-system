@@ -26,21 +26,31 @@ class RedisConfiguration {
     }
 
     @Bean
-    fun cacheManager(redisConnectionFactory: RedisConnectionFactory): RedisCacheManager {
-        val redisCacheConfiguration =
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)).disableCachingNullValues()
-                .serializeValuesWith(SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer()))
-                .serializeKeysWith(SerializationPair.fromSerializer(StringRedisSerializer()))
+    fun cacheConfigurator(): RedisCacheConfiguration {
+        return RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofMinutes(10)).disableCachingNullValues()
+            .serializeValuesWith(SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer()))
+            .serializeKeysWith(SerializationPair.fromSerializer(StringRedisSerializer()))
+    }
 
+    @Bean
+    fun cacheManager(
+        redisConnectionFactory: RedisConnectionFactory,
+        redisCacheConfiguration: RedisCacheConfiguration
+    ): RedisCacheManager {
         return RedisCacheManager.builder(redisConnectionFactory).apply {
             cacheDefaults(redisCacheConfiguration)
         }.build()
     }
 
     @Bean
-    fun redisTemplate(redisConnectionFactory: RedisConnectionFactory): RedisTemplate<String, Int> {
+    fun redisTemplate(
+        redisConnectionFactory: RedisConnectionFactory,
+        redisCacheConfiguration: RedisCacheConfiguration
+    ): RedisTemplate<String, Int> {
         return RedisTemplate<String, Int>().apply {
             connectionFactory = redisConnectionFactory
+            valueSerializer = GenericJackson2JsonRedisSerializer()
+            keySerializer = StringRedisSerializer()
         }
     }
 }

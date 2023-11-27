@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import reactor.core.publisher.Mono
+import java.util.concurrent.TimeUnit
 
 @Service
 class LinkService(private val redisTemplate: RedisTemplate<String, Int>) {
@@ -41,7 +42,7 @@ class LinkService(private val redisTemplate: RedisTemplate<String, Int>) {
             } catch (e: Exception) {
                 500
             }
-            redisTemplate.opsForValue().set(url, status)
+            redisTemplate.opsForValue().set(url, status, 10, TimeUnit.MINUTES)
             return status
         }
     }
