@@ -36,3 +36,6 @@ out/
 
 ### VS Code ###
 .vscode/
+/Users/ajeetraina/data/redisinsight/queries.log
+/Users/ajeetraina/data/redisinsight/redisinsight.log
+/Users/ajeetraina/data/redisinsight/redisinsight.db

@@ -7,7 +7,7 @@ services:
       context: ./nginx
       dockerfile: ./Dockerfile
     ports:
-      - 80:80
+      - "80:80"
     depends_on:
       - app-1
       - app-2
@@ -27,7 +27,7 @@ services:
       POSTGRES_PASSWORD: 12345
       POSTGRES_DB: distributed-system
     ports:
-      - 5432:5432
+      - "5432:5432"
 
   rabbitMQ:
     image: rabbitmq:3-management-alpine
@@ -35,8 +35,8 @@ services:
       RABBITMQ_DEFAULT_USER: root
       RABBITMQ_DEFAULT_PASS: 12345
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672"
+      - "15672:15672"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
       interval: 30s
@@ -96,7 +96,7 @@ services:
       SPRING_RABBITMQ_PASSWORD: 12345
       SPRING_DATA_REDIS_PORT: 6379
     ports:
-      - 4000
+      - "4000"
     depends_on:
       - redis
       - nginx
@@ -106,6 +106,15 @@ services:
       replicas: 2
 
   redis:
-    image: redis
+    image: redis:latest
     ports:
-      - 6379:6379
+      - "6379:6379"
+
+  redis-insights:
+    image: redislabs/redisinsight:latest
+    ports:
+      - "8001:8001"
+    environment:
+      - "REDIS_URI=redis://redis:6379"
+    depends_on:
+      - redis
